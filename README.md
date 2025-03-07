@@ -411,3 +411,390 @@ b3f3365 HEAD@{58}: commit: chore: Create fourth file
 5f29d5a HEAD@{61}: commit (initial): chore: Create initial file
 
 ```
+
+## Part 2
+
+### Feature Branch Creation
+
+```bash
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git checkout -b ft/new-feature
+Switched to a new branch 'ft/new-feature'
+
+```
+
+### Working on the Feature Branch
+
+```bash
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (ft/new-feature)
+$ touch feature.txt
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (ft/new-feature)
+$ git add feature.txt && git commit -m "Implemented core functionality for new feature"
+[ft/new-feature 98da3ca] Implemented core functionality for new feature
+ 1 file changed, 1 insertion(+)
+ create mode 100644 feature.txt
+
+```
+
+### Switching Back and Making More Changes
+
+```bash
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (ft/new-feature)
+$ git checkout main
+Switched to branch 'main'
+Your branch and 'origin/main' have diverged,
+and have 4 and 4 different commits each, respectively.
+  (use "git pull" if you want to integrate the remote branch with yours)
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ touch readme.txt
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git add readme.txt && git commit -m "Updated project 
+readme"
+[main 790f565] Updated project readme
+ 1 file changed, 1 insertion(+)
+ create mode 100644 readme.txt
+
+```
+
+### Local vs. Remote Branches
+
+```bash
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git branch -r
+  origin/HEAD -> origin/main
+  origin/main
+
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git pull
+Already up to date.
+```
+
+### Branch Deletion
+
+```bash
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git branch -D ft/new-feature
+Deleted branch ft/new-feature (was 98da3ca).
+
+```
+
+### Creating a Branch from a Commit
+
+```bash
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git log --oneline
+790f565 (HEAD -> main, origin/main, origin/HEAD) Updated project readme
+23e827b chore: Implement test 5
+328e3df chore: Create third and fourth file
+457518c chore: order this
+07062c5 chore: Squashed files
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git checkout -b ft/new-branch-from-commit 328e3df
+Switched to a new branch 'ft/new-branch-from-commit'
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (ft/new-branch-from-commit)
+$ git branch
+  ft/branch
+* ft/new-branch-from-commit
+  main
+
+```
+
+### Branch Merging
+
+```bash
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (ft/new-branch-from-commit)
+$ git checkout main
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git merge ft/new-branch-from-commit 
+Merge made by the 'ort' strategy.
+ order.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+```
+
+### Branch Rebasing
+
+```bash
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git checkout ft/new-branch-from-commit 
+Switched to branch 'ft/new-branch-from-commit'
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (ft/new-branch-from-commit)
+$ git rebase main
+Successfully rebased and updated refs/heads/ft/new-branch-from-commit.
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (ft/new-branch-from-commit)
+$ git checkout main
+Switched to branch 'main'
+Your branch is ahead of 'origin/main' by 2 commits.
+  (use "git push" to publish your local commits)
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git log --oneline
+2fd2b2f (HEAD -> main, ft/new-branch-from-commit) Merge branch 'ft/new-branch-from-commit'
+fb9ad5b Updated Order
+790f565 (origin/main, origin/HEAD) Updated project readme
+23e827b chore: Implement test 5
+328e3df chore: Create third and fourth file
+457518c chore: order this
+07062c5 chore: Squashed files
+
+```
+
+### Renaming Branches
+
+```bash
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git branch -m ft/new-branch-from-commit ft/improved-branch-name
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git branch
+  ft/branch
+  ft/improved-branch-name
+* main
+
+```
+
+### Checking Out Detached HEAD
+
+```bash
+
+```
+
+
+## Part 3
+
+### Stashing Changes
+
+```bash
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git stash
+Saved working directory and index state WIP on main: 2fd2b2f Merge branch 'ft/new-branch-from-commit'
+
+```
+
+### Retrieving Stashed Changes
+
+```bash
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git stash pop
+On branch main
+Your branch is ahead of 'origin/main' by 2 commits.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   order.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Dropped refs/stash@{0} (ded9d08979b0959a3ae915a87f25c1ce4b09551a)
+
+```
+
+### Branch Merging Conflicts (Continued)
+
+```bash
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git commit -m "Causing a conflict"
+[main 95fd805] Causing a conflict
+ 1 file changed, 2 insertions(+), 1 deletion(-)        
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git checkout ft/improved-branch-name 
+Switched to branch 'ft/improved-branch-name'
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (ft/improved-branch-name)
+$ git add order.txt && git commit -m "Merge it"
+[ft/improved-branch-name eec1d95] Merge it
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (ft/improved-branch-name)
+$ git checkout main
+Switched to branch 'main'
+Your branch is ahead of 'origin/main' by 3 commits.    
+  (use "git push" to publish your local commits)       
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git merge ft/improved-branch-name 
+Auto-merging order.txt
+CONFLICT (content): Merge conflict in order.txt        
+Automatic merge failed; fix conflicts and then commit the result.
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main|MERGING)
+$ git merge ft/improved-branch-name 
+fatal: You have not concluded your merge (MERGE_HEAD exists).
+Please, commit your changes before you merge.
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main|MERGING)
+$ git add order.txt && git commit -m "Solve the merge"
+[main 1d10d31] Solve the merge
+
+```
+
+### Resolving Merge Conflicts with a Merge Tool
+
+```bash
+```
+
+### Understanding Detached HEAD State
+
+```bash
+
+```
+
+### Ignoring Files/Directories
+
+```bash
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ touch .gitignore
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git rm -r --cache order.txt
+rm 'order.txt'
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git add .gitignore
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git commit -m  "Ignore order.txt"
+[main d139611] Ignore order.txt
+ 2 files changed, 2 insertions(+), 2 deletions(-)      
+ create mode 100644 .gitignore
+ delete mode 100644 order.txt
+
+```
+
+### Working with Tags
+
+```bash
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git tag v1.0
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git tag
+v1.0
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git show v1.0
+commit d1396114456385222ae00b59d4a1b2d77fc9f955 (HEAD -> main, tag: v1.0)
+Author: Tricia Nshuti <nshutricia@gmail.com>
+Date:   Fri Mar 7 12:01:19 2025 +0200
+
+    Ignore order.txt
+
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..d1c5c35
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,2 @@
++/tmp
++order.txt
+\ No newline at end of file
+diff --git a/order.txt b/order.txt
+deleted file mode 100644
+index 5f8016c..0000000
+--- a/order.txt
++++ /dev/null
+@@ -1,2 +0,0 @@
+-This is the order files
+-I am going to stash some changes
+\ No newline at end of file
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git push origin v1.0
+Enumerating objects: 21, done.
+Counting objects: 100% (20/20), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (17/17), 1.56 KiB | 533.00 KiB/s, done.
+Total 17 (delta 7), reused 0 (delta 0), pack-reused 0  
+remote: Resolving deltas: 100% (7/7), completed with 1 local object.
+To https://github.com/Nshutitricia/GitAdvancedSample.git
+ * [new tag]         v1.0 -> v1.0
+ user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git tag -d v1.0
+Deleted tag 'v1.0' (was d139611)
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git push origin --delete v1.0
+To https://github.com/Nshutitricia/GitAdvancedSample.git
+ - [deleted]         v1.0
+
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git tag -a v1.0 -m "This is version 1"
+
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git tag
+v1.0
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git tag -d v1.0
+Deleted tag 'v1.0' (was 5e32dea)
+
+```
+
+### Listing and Deleting Tags
+
+```bash
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git tag
+v1.0
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git tag -d v1.0
+Deleted tag 'v1.0' (was 5e32dea)
+
+```
+
+### Pushing Local Work to Remote Repositories
+
+```bash
+GitAdvancedSample (main)
+$ git push origin main
+Enumerating objects: 21, done.
+Counting objects: 100% (20/20), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (14/14), done.
+Writing objects: 100% (17/17), 1.56 KiB | 800.00 KiB/s, done.
+Total 17 (delta 7), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (7/7), completed with 1 local object.
+To https://github.com/Nshutitricia/GitAdvancedSample.git
+   790f565..d139611  main -> main
+
+```
+
+### Pulling Changes from Remote Repositories
+
+```bash
+
+user@DESKTOP-8NS2V24 MINGW64 ~/Documents/Git Exercises/GitAdvancedSample (main)
+$ git pull origin main
+From https://github.com/Nshutitricia/GitAdvancedSample
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+
+```
